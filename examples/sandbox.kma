@@ -1,0 +1,60 @@
+
+
+
+
+'the cwd is wherever kuma is being called, not the directory this file is located in'#
+'so this needs to be changed if you move ./dist/kuma somewhere else and try to run it.'#
+'that is really stupid i know'#
+
+import('./examples/getNthFib.kma');
+
+{getNthFib} {
+  println('Loaded getNthFib!');
+} {
+  println('Could not load getNthFib');
+  die!
+} ifelse;
+
+nums[
+  x 1=; {x 11<} {
+    getNthFib(x); x x1+=;
+  } while;
+]=;
+
+println(nums length. 'the length is ');
+
+i 0=; {i nums length.<} {
+  println(nums i..']: 'i'[');
+  i i1+=;
+} while;
+
+die!;
+
+
+
+val min(termRows! termCols!)1-=;
+println(val);
+
+die!;
+
+
+
+
+
+
+
+
+
+
+
+realPass 'hey123'=;
+secretPass 'hey'=;
+getPass input('What is the password? ')=;
+
+{getPass realPass==} {
+  println('congrats, that is correct!');
+} {{getPass secretPass ==} {
+  println('close but not quite!');
+} {
+  println('sorry, not correct!');
+} ifelse} ifelse;

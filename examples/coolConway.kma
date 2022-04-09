@@ -1,0 +1,117 @@
+
+aliveChar'O'=;
+deadChar'.'=;
+
+setSpecificGrid {
+  grid [
+    ['.''O''.''.''.''.''.''.''.''.''.']
+    ['.''.''O''.''.''.''.''.''.''.''.']
+    ['O''O''O''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+    ['.''.''.''.''.''.''.''.''.''.''.']
+  ]=;
+}=;
+
+setRandomGrid {
+  gridWidth min(termRows! termCols!)=;
+  grid [
+    i 0=; {i gridWidth$<} {
+      [
+        j 0=; {j gridWidth$<} {
+          {random!} {
+            aliveChar
+          } {
+            deadChar
+          } ifelse;
+          j j1+=;
+        } while;
+        i i1+=;
+      ]
+    } while;
+  ]=;
+}=;
+
+isCellAlive {
+  i A= j B=
+  grid i..j..aliveChar==;
+}=;
+
+getSurroundingCells {
+  i A= j B=
+  rows grid length.=;
+  cols grid 0..length.=;
+  
+  [
+    {i1+rows< j1+cols< &&} {grid i1+..j1+..} if;
+    {i1+rows<} {grid i1+..j..} if;
+    {i1+rows< j1-0>= &&} {grid i1+..j1-..} if;
+    {j1+cols<} {grid i..j1+..} if;
+    {j1-0>=} {grid i..j1-..} if;
+    {i1-0>= j1+cols< &&} {grid i1-..j1+..} if;
+    {i1-0>=} {grid i1-..j..} if;
+    {i1-0>= j1-0>= &&} {grid i1-..j1-..} if;
+  ]
+}=;
+
+getAmtOfChar {
+  i A= j B= char C=;
+  surrounding getSurroundingCells(j i)=;
+
+  amount 0=;
+  k surrounding length.1-= {k 0>=} {
+    {surrounding k..char==} {amount amount1+=} if;
+    k k1-=;
+  } while;
+
+  amount$;
+}=;
+
+getAmtAlive {
+  i A= j B=;
+  getAmtOfChar(aliveChar j i);
+}=;
+
+stepCell {
+  i A= j B=;
+
+  amtAlive getAmtAlive(j i)=;
+  {isCellAlive(j i)} {
+    {amtAlive 2== amtAlive 3== ||} {aliveChar$} {deadChar$} ifelse;
+  } {
+    {amtAlive 3==} {aliveChar$} {deadChar$} ifelse;
+  } ifelse;
+}=;
+
+setRandomGrid!
+
+steps0=;
+{steps100<} {
+  'sleeps 250ms between steps'#
+  sleep(500);
+
+  'build new grid and print existing grid at same time'#
+  newGrid [
+    i grid length.1-=; {i 0 >=} {
+      [
+        j grid i..length.1-=; {j 0 >=} {
+          print(' 'grid i..j..);
+          stepCell(j i);
+          j j1-=;
+        } while;
+        println!;
+        i i1-=;
+      ]
+    } while;
+  ]=;
+
+  'set grid equal to new grid'#
+  grid newGrid$ =;
+  
+  steps steps1+=;
+} while;

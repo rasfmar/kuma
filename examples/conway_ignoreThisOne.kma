@@ -1,0 +1,100 @@
+
+defaultGridSize 8=;
+defaultGrid [
+  x0={x defaultGridSize<}{
+    [y0={y defaultGridSize<}{'.'; y y1+=}while y0=];
+    x x1+=
+  }while x0=
+]=;
+
+grid [
+      7# 6# 5# 4# 3# 2# 1# 0#
+  7#['.''.''.''.''.''.''.''.']
+  6#['.''.''.''.''.''.''.''.']
+  5#['.''.''.''.''.''.''.''.']
+  4#['.''.''.''.''.''.''.''.']
+  3#['.''.''.''.''O''O''O''.']
+  2#['.''.''.''.''O''.''.''.']
+  1#['.''.''.''.''.''O''.''.']
+  0#['.''.''.''.''.''.''.''.']
+]=;
+
+isAlive {cell A=cell'O'==}=;
+
+getCellsAround {
+  row A= col B=
+  [
+    grid row1-..col1-..
+    grid row..col1-..
+    grid row1+..col1-..
+    grid row1-..col..
+    grid row..col..
+    grid row1+..col..
+    grid row1-..col1+..
+    grid row..col1+..
+    grid row1+..col1+..
+  ]
+}=;
+
+getAmtAlive {
+  row A= col B=
+  surrounding getCellsAround(col$ row$)=;
+
+  amtAlive 0=;
+  k0=;{k surrounding length.<}{
+    {isAlive(surrounding k..)} {amtAlive amtAlive1+=} if;
+    k k1+=
+  }while;
+
+  amtAlive$;
+}=;
+
+printGrid {
+  theGrid A=
+  i0={i theGrid length.<}{
+    j0={j theGrid i..length.<}{
+      print(' 'theGrid i..j..)
+      j j1+=
+    }while;
+    println!
+    i i1+=
+  }while;
+}=;
+
+step {
+  newGrid [
+    i grid length.1-={i0>=}{
+      [
+        j grid i..length.1-={j0>=}{
+          print(j i);
+          cell grid i..j..=;
+          alive getAmtAlive(j i)=;
+          retCell 'X'=;
+
+          {isAlive(cell$)} {
+            {alive2<}{retCell'.'=}if;
+            {alive3>}{retCell'.'=}if;
+            {alive2==alive3==||}{retCell'O'=}if;
+          } {
+            {alive 3==}{retCell'O'=}{retCell'.'=}ifelse;
+          } ifelse;
+
+          println(retCell' ');
+          retCell$;
+          dumpStack!
+          j j1-=
+        }while;
+        dumpStack!
+      ]
+      i i1-=
+    }while;
+  ]=;
+  printGrid(newGrid);
+  grid newGrid$=;
+}=;
+
+printGrid(grid);
+println('---');
+step!
+  
+die!

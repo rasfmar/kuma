@@ -1,0 +1,31 @@
+
+makeName {
+  firstName A=, lastName B=, middleName C=
+
+  firstName' '+
+    {
+      middleName null !=
+      middleName '' !=
+      &&
+    }
+      {middleName' '++}
+    if
+  lastName+
+}=
+
+getFullName {
+  askForMiddleName A=
+
+  firstName input('First name?: ')=
+
+  {askForMiddleName}
+    {middleName input('Middle name?: ')=}
+  if
+
+  lastName input('Last name?: ')=
+
+  makeName({middleName null!=}{middleName}if lastName firstName)
+}=
+
+println('!\n'getFullName(true)'with middle name: hey, ')
+println('!'getFullName(false)'now without middle name: hey, ')

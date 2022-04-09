@@ -1,0 +1,36 @@
+getNthFib {
+  which A=;
+  verbose B=;
+
+  {which null!=which 1!=which 2!=&&&&} {
+    first 1=;
+    second 1=;
+    cnt 2=;
+
+    {verbose} {
+      println(second'\n'first);
+    } if;
+
+    {cnt which<} {
+      third first second+=;
+
+      {verbose} {
+        println(third);
+      } if;
+
+      first second=;
+      second third=;
+
+      cnt cnt1+=;
+    } while;
+
+    second$;
+  } if;
+
+  {which 1==which 2==||} {1} if;
+}=;
+
+die!
+num 10=;
+println(fib(true num) 'th fibonnaci number is ' num 'therefore the ');
+
