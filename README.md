@@ -2,7 +2,7 @@
 
 ### What is this?
 
-A programming language I made in a day. I did not follow good code practices with this, but it works. It might also be considered Turing complete since it can emulate Conway's game of life which is Turing complete.
+A programming language I made in a day. I did not follow good code practices with this, but it works. It might also be considered Turing complete since it can emulate Conway's game of life, which is Turing complete.
 
 ### How does it work?
 
